@@ -110,7 +110,25 @@
   }
   .navlinks a:hover{color:var(--purple-dark);}
   a:focus-visible{outline:2px solid var(--purple); outline-offset:3px; border-radius:4px;}
-  @media (max-width:640px){ .navlinks{gap:12px;} .navlinks a{font-size:0.72rem;} }
+  .nav-toggle{
+    display:none; flex-direction:column; justify-content:center; gap:4px;
+    width:32px; height:32px; background:none; border:none; cursor:pointer; padding:0;
+  }
+  .nav-toggle span{display:block; width:20px; height:2px; background:var(--ink); border-radius:2px;}
+  @media (max-width:640px){
+    .navlinks{
+      display:none; position:absolute; top:calc(100% + 10px); left:0; right:0;
+      flex-direction:column; gap:2px; background:var(--white);
+      border:1px solid var(--border); border-radius:16px; padding:10px;
+      box-shadow:var(--shadow-sm);
+    }
+    .navlinks.open{display:flex;}
+    .navlinks li{width:100%;}
+    .navlinks a{display:block; padding:10px 12px; font-size:0.85rem; border-radius:10px;}
+    .navlinks a:hover{background:var(--purple-dim);}
+    .nav-toggle{display:flex;}
+    .navpill{position:relative;}
+  }
 
   /* ---------- HERO ---------- */
   header.hero{padding:60px 0 20px; position:relative;}
@@ -222,11 +240,11 @@
   .api-tabs .tab{padding-bottom:10px; border-bottom:2px solid transparent;}
   .api-tabs .tab.active{color:var(--purple-dark); border-bottom-color:var(--purple);}
   .api-headers{padding:14px 20px 4px; font-family:var(--mono); font-size:0.76rem;}
-  .hdr-row{display:flex; gap:10px; padding:6px 0; border-bottom:1px dashed var(--border);}
-  .hdr-row .k{color:var(--faint); min-width:120px;}
-  .hdr-row .v{color:var(--muted);}
+  .hdr-row{display:flex; flex-wrap:wrap; gap:4px 10px; padding:6px 0; border-bottom:1px dashed var(--border);}
+  .hdr-row .k{color:var(--faint); min-width:110px;}
+  .hdr-row .v{color:var(--muted); word-break:break-all;}
   .api-response{margin-top:6px; border-top:1px solid var(--border); padding:16px 20px 22px;}
-  .resp-meta{display:flex; gap:14px; align-items:center; font-family:var(--mono); font-size:0.74rem; margin-bottom:10px; min-height:22px;}
+  .resp-meta{display:flex; flex-wrap:wrap; gap:6px 14px; align-items:center; font-family:var(--mono); font-size:0.74rem; margin-bottom:10px; min-height:22px;}
   .status-pill{padding:3px 10px; border-radius:999px; background:var(--purple-dim); color:var(--purple-dark); border:1px solid rgba(139,111,232,0.3);}
   .resp-meta .dim{color:var(--faint);}
   .json-body{font-family:var(--mono); font-size:0.82rem; color:var(--ink); margin:0; white-space:pre-wrap; word-break:break-word; min-height:20px;}
@@ -319,19 +337,22 @@
 <nav>
   <div class="navpill">
     <a href="#top" class="logo">tharuni<span>.</span>modi</a>
-    <ul class="navlinks">
+    <ul class="navlinks" id="navLinks">
       <li><a href="#about">about</a></li>
       <li><a href="#skills">skills</a></li>
       <li><a href="#projects">projects</a></li>
       <li><a href="#hackathons">hackathons</a></li>
       <li><a href="#contact">contact</a></li>
     </ul>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
   </div>
 </nav>
 
 <header class="hero" id="top">
   <div class="wrap">
-    <span class="eyebrow">Software Developer — Full-Stack &amp; Backend</span>
+    <span class="eyebrow">Software Developer</span>
     <h1>Tharuni Modi K P</h1>
     <p class="lede">Final-year CS undergrad building full-stack systems with React, Node.js, Express and REST APIs — with a growing focus on backend architecture and DSA. Currently looking for SDE internship / new-grad roles.</p>
     <div class="hero-links">
@@ -511,7 +532,7 @@
   const jsonHtml =
     '{\n' +
     '  <span class="key">"name"</span><span class="punc">:</span> <span class="str">"Tharuni Modi K P"</span><span class="punc">,</span>\n' +
-    '  <span class="key">"role"</span><span class="punc">:</span> <span class="str">"Full-Stack / Backend Developer"</span><span class="punc">,</span>\n' +
+    '  <span class="key">"role"</span><span class="punc">:</span> <span class="str">"Software Developer"</span><span class="punc">,</span>\n' +
     '  <span class="key">"stack"</span><span class="punc">:</span> <span class="str">["React", "Node.js", "Express", "MongoDB"]</span><span class="punc">,</span>\n' +
     '  <span class="key">"status"</span><span class="punc">:</span> <span class="str">"open_to_work"</span><span class="punc">,</span>\n' +
     '  <span class="key">"location"</span><span class="punc">:</span> <span class="str">"Bangalore, IN"</span>\n' +
@@ -547,6 +568,20 @@
   } else {
     items.forEach(el => el.classList.add('in'));
   }
+
+  // Mobile nav toggle
+  const navToggle = document.getElementById('navToggle');
+  const navLinks = document.getElementById('navLinks');
+  navToggle.addEventListener('click', () => {
+    const isOpen = navLinks.classList.toggle('open');
+    navToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+  });
+  navLinks.addEventListener('click', (e) => {
+    if (e.target.tagName === 'A'){
+      navLinks.classList.remove('open');
+      navToggle.setAttribute('aria-expanded', 'false');
+    }
+  });
 </script>
 
 </body>
