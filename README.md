@@ -2,6 +2,9 @@
 
 A modern, responsive personal portfolio website showcasing my projects, technical skills, hackathons, certifications, and experience as a Full-Stack & Backend Developer. Built using HTML, CSS, and JavaScript with a developer-inspired UI and an interactive API request simulation.
 
+# live link
+https://tharunimodikportfolio.netlify.app/
+
 ## ✨ Features
 
 - 📱 Fully responsive design
